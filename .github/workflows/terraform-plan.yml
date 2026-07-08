@@ -1,4 +1,4 @@
-﻿name: Terraform Plan
+﻿name: Terraform Validate
 
 on:
   push:
@@ -9,11 +9,6 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-
-    env:
-      TF_VAR_scm_client_id: ${{ secrets.SCM_CLIENT_ID }}
-      TF_VAR_scm_client_secret: ${{ secrets.SCM_CLIENT_SECRET }}
-      TF_VAR_scm_tsg_id: ${{ secrets.SCM_TSG_ID }}
 
     steps:
       - name: Checkout repository
@@ -30,6 +25,3 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
-
-      - name: Terraform Plan
-        run: terraform plan
