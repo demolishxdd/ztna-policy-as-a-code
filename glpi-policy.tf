@@ -1,28 +1,20 @@
-resource "scm_address" "glpi_app" {
-  folder      = "Mobile Users"
-  name        = "S9-GLPI-App"
-  description = "GLPI private application object created by Terraform for S9 Policy as Code"
-
-  ip_netmask = var.glpi_ip
-}
-
-resource "scm_security_rule" "allow_glpi" {
+resource "scm_security_rule" "block_youtube_test" {
   folder   = "Mobile Users"
   position = "pre"
 
-  name        = "S9-Allow-GLPI-ZTNA"
-  description = "Allow GlobalProtect/ZTNA users to access GLPI private app"
+  name        = "S9-Block-YouTube-Test"
+  description = "Block YouTube for S9 Policy as Code lab demonstration"
 
-  action      = "allow"
-  category    = ["any"]
-  application = ["web-browsing", "ssl"]
+  action      = "deny"
+  application = ["youtube-base", "youtube"]
   service     = ["application-default"]
+  category    = ["any"]
 
   from = ["trust"]
   to   = ["untrust"]
 
   source      = ["any"]
-  destination = [scm_address.glpi_app.name]
+  destination = ["any"]
 
   negate_source      = false
   negate_destination = false
@@ -35,8 +27,4 @@ resource "scm_security_rule" "allow_glpi" {
   log_end   = true
 
   disabled = false
-
-  profile_setting = {
-    group = ["best-practice"]
-  }
 }
